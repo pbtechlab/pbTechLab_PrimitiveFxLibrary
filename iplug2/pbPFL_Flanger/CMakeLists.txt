@@ -6,8 +6,9 @@ if(NOT DEFINED IPLUG2_DIR)
   set(IPLUG2_DIR "C:/Users/b_pan/Project/iPlug2" CACHE PATH "iPlug2 root directory")
 endif()
 
-# Deploy the VST3 to the system-wide VST3 folder (scanned by all DAWs).
-if(NOT DEFINED IPLUG_VST3_DEPLOY_PATH OR IPLUG_VST3_DEPLOY_PATH STREQUAL "")
+# Deploy the VST3 to the system-wide VST3 folder (Windows only; on macOS iPlug2 uses
+# its own /Library/Audio/Plug-Ins/VST3 default).
+if(WIN32 AND (NOT DEFINED IPLUG_VST3_DEPLOY_PATH OR IPLUG_VST3_DEPLOY_PATH STREQUAL ""))
   set(IPLUG_VST3_DEPLOY_PATH "C:/Program Files/Common Files/VST3" CACHE PATH "VST3 deployment path" FORCE)
 endif()
 
@@ -35,7 +36,7 @@ iplug_add_plugin(${PROJECT_NAME}
     resources/web/script.js
     resources/web/pbtechlab-logoicon.png
   UI WEBVIEW
-  EXCLUDE_FORMATS WAM
+  EXCLUDE_FORMATS WAM AU AUV3 VST2 CLAP
 )
 
 # ---------------------------------------------------------------------------
@@ -45,13 +46,13 @@ iplug_add_plugin(${PROJECT_NAME}
 # ---------------------------------------------------------------------------
 set(PB_WEB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources/web")
 
-if(TARGET pbPFL_Flanger-app)
+if(WIN32 AND TARGET pbPFL_Flanger-app)
   add_custom_command(TARGET pbPFL_Flanger-app POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${PB_WEB_DIR}" "$<TARGET_FILE_DIR:pbPFL_Flanger-app>/web"
     COMMENT "[pbPFL] copy WebView resources next to app binary")
 endif()
 
-if(TARGET pbPFL_Flanger-vst3)
+if(WIN32 AND TARGET pbPFL_Flanger-vst3)
   add_custom_command(TARGET pbPFL_Flanger-vst3 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${PB_WEB_DIR}" "$<TARGET_FILE_DIR:pbPFL_Flanger-vst3>/web"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${PB_WEB_DIR}" "C:/Program Files/Common Files/VST3/pbPFL_Flanger.vst3/Contents/x86_64-win/web"
