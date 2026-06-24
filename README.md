@@ -4,109 +4,84 @@
 
 ![pbTechLab Primitive Fx Library GUI collection](public_gui_screenshots/pbTechLab_PrimitiveFxLibrary_GUI_Collection_Public.png)
 
-pbTechLab Primitive Fx Library is a collection of lightweight audio effect plug-ins built with C++ and JUCE 8. The library currently ships 17 effect plug-ins for Windows and macOS, with VST3 and AAX installer packages provided in the release assets.
+pbTechLab Primitive Fx Library is a collection of 17 lightweight audio effect plug-ins for Windows and macOS. Every plug-in ships as a **VST3** and an **AAX** (Pro Tools) plug-in, with a shared WebView-based editor and a self-contained native DSP core.
 
-The plug-ins share one native DSP core and one WebView-based editor framework. Each plug-in has its own product name, plug-in code, parameter set, embedded HTML/CSS/JavaScript interface, DAW automation mapping, preset state support, bypass handling, and input/output metering.
+The plug-ins were migrated from the original JUCE 8 implementation to **[iPlug2](https://github.com/iPlug2/iPlug2)** with a **WebView UI** (WebView2 on Windows, WKWebView on macOS). The migrated, build-ready projects live under [`iplug2/`](iplug2). Each plug-in is an independent iPlug2 project with its own product name, 4-character plug-in code, parameter set, DSP, and embedded HTML/CSS/JavaScript editor.
 
-## Release Packages
+## Formats & Platforms
 
-The GitHub release includes installer packages, not build products committed to the repository.
+| Format | Windows | macOS | Notes |
+|---|:---:|:---:|---|
+| VST3 | ✅ | ✅ | Scanned from the common VST3 folder by every DAW |
+| AAX Native | ✅ | ✅ | Pro Tools. Requires PACE signing for release distribution |
+| Standalone | ✅ | ✅ | For development / quick checks |
 
-| Platform | Installer | Included formats |
-|---|---|---|
-| Windows 64-bit | `pbTechLab_PrimitiveFxLibrary_1.0.0_Windows_Setup.exe` | VST3, AAX |
-| macOS universal | `pbTechLab_PrimitiveFxLibrary-1.0.0-macOS.pkg` | VST3, AAX |
-
-The macOS package is signed, notarized, and stapled. The Windows AAX plug-ins are PACE-signed. The Windows installer itself is intentionally unsigned because no public-trust Authenticode certificate is included in this repository.
+The macOS release plug-ins are code-signed, PACE-signed (AAX), notarized, and stapled. Distribution installers ship only through GitHub Releases — they are not committed to the repository.
 
 ## Included Plug-Ins
 
-| Plug-in | Main controls | Purpose |
-|---|---|---|
-| pbPFL Reverb | Pre Delay, Size, Damping, Diffusion, Mod, Width, Dry/Wet, Output | Algorithmic stereo reverb for ambience, room tone, and wide spatial tails. |
-| pbPFL Delay | Time, Feedback, Tone, Spread, Mod Rate, Mod Depth, Dry/Wet, Output | Stereo delay with feedback coloration, spread, and modulation. |
-| pbPFL Distortion | Drive, Bias, Tone, Low Cut, Shape, Presence, Dry/Wet, Output | Saturation and distortion processor for harmonic edge and tone shaping. |
-| pbPFL Compressor | Threshold, Ratio, Attack, Release, Knee, Makeup, Dry/Wet, Output | Studio-style dynamics control with parallel compression support. |
-| pbPFL Limiter | Input, Ceiling, Release, Soft Clip, Stereo Link, Density, Dry/Wet, Output | Peak limiting and loudness control with soft clipping behavior. |
-| pbPFL 3BandEQ | Low, Low Freq, Mid, Mid Freq, Mid Q, High, Dry/Wet, Output | Three-band equalizer for broad tonal shaping. |
-| pbPFL 4BandEQ | Low, Low Freq, Low Mid, Low Mid Freq, High Mid, High Mid Freq, Dry/Wet, Output | Four-band equalizer for more focused tone correction. |
-| pbPFL PitchShifter | Semitone, Cents, Grain, Crossfade, Tone, Stability, Dry/Wet, Output | Time-domain pitch shifting for harmonizing and sound design. |
-| pbPFL Chorus | Rate, Depth, Delay, Feedback, Spread, Tone, Dry/Wet, Output | Stereo chorus for widening, movement, and modulation color. |
-| pbPFL Phaser | Rate, Depth, Center, Feedback, Stages, Spread, Dry/Wet, Output | Moving all-pass phaser with feedback and stereo spread. |
-| pbPFL Flanger | Rate, Depth, Delay, Feedback, Spread, Tone, Dry/Wet, Output | Stereo flanger with short modulated delay and feedback. |
-| pbPFL StereoEnhancer | Width, Enhance, Focus, Bass Mono, Air, Center, Dry/Wet, Output | Stereo enhancement and bass mono management. |
-| pbPFL StereoWidth | Width, Mono, Balance, Rotation, Low Mono, Focus, Dry/Wet, Output | Utility processor for stereo width, mono blend, balance, and rotation. |
-| pbPFL MidSideProcessor | Mid Gain, Side Gain, Width, Balance, Tilt, Mono Bass, Dry/Wet, Output | Mid-side gain and width processing. |
-| pbPFL AutoPan | Rate, Depth, Phase, Shape, Offset, Smooth, Dry/Wet, Output | Auto-panning modulation with stereo phase control. |
-| pbPFL Tremolo | Rate, Depth, Shape, Phase, Smooth, Bias, Dry/Wet, Output | Amplitude modulation for pulse, movement, and rhythmic effects. |
-| pbPFL Vibrato | Rate, Depth, Delay, Shape, Spread, Smooth, Dry/Wet, Output | Pitch modulation and vibrato-style movement. |
+| Plug-in | Code | Main controls | Purpose |
+|---|---|---|---|
+| pbPFL Reverb | `PrRv` | Size, Damping, Diffusion, Mod, Width, Dry/Wet, Output | Algorithmic stereo reverb (Freeverb-style comb/allpass network). |
+| pbPFL Delay | `PrDl` | Time, Feedback, Tone, Spread, Mod Rate, Mod Depth, Dry/Wet, Output | Stereo delay with feedback coloration, spread, and modulation. |
+| pbPFL Distortion | `PrDs` | Drive, Bias, Tone, Shape, Dry/Wet, Output | Saturation / distortion for harmonic edge and tone shaping. |
+| pbPFL Compressor | `PrCp` | Threshold, Ratio, Attack, Release, Makeup, Dry/Wet, Output | Feed-forward dynamics with parallel-compression mix. |
+| pbPFL Limiter | `PrLm` | Input, Ceiling, Release, Dry/Wet, Output | Peak limiting / loudness control with envelope smoothing. |
+| pbPFL 3BandEQ | `Pr3E` | Low/Mid/High gain + freq + Q, Dry/Wet, Output | Three-band RBJ-biquad equalizer. |
+| pbPFL 4BandEQ | `Pr4E` | Low shelf, two bells, high band, Dry/Wet, Output | Four-band RBJ-biquad equalizer. |
+| pbPFL PitchShifter | `PrPs` | Semitone, Cents, Grain, Crossfade, Tone, Dry/Wet, Output | Time-domain pitch shifting. |
+| pbPFL Chorus | `PrCh` | Rate, Depth, Delay, Feedback, Spread, Dry/Wet, Output | Stereo chorus (modulated fractional delay). |
+| pbPFL Phaser | `PrPh` | Rate, Depth, Center, Feedback, Dry/Wet, Output | Moving all-pass phaser with feedback. |
+| pbPFL Flanger | `PrFl` | Rate, Depth, Delay, Feedback, Spread, Dry/Wet, Output | Stereo flanger with short modulated delay + bipolar feedback. |
+| pbPFL StereoEnhancer | `PrSE` | Width, Enhance, Focus, Bass Mono, Dry/Wet, Output | Stereo enhancement and bass-mono management. |
+| pbPFL StereoWidth | `PrSW` | Width, Mono, Balance, Rotation, Dry/Wet, Output | Stereo width / mono blend / balance / rotation utility. |
+| pbPFL MidSideProcessor | `PrMS` | Mid Gain, Side Gain, Width, Balance, Dry/Wet, Output | Mid-side gain and width processing. |
+| pbPFL AutoPan | `PrAP` | Rate, Depth, Phase, Shape, Offset, Dry/Wet, Output | Tempo-sync-capable auto panner. |
+| pbPFL Tremolo | `PrTR` | Rate, Depth, Shape, Phase, Dry/Wet, Output | Amplitude modulation for pulse / rhythmic movement. |
+| pbPFL Vibrato | `PrVB` | Rate, Depth, Delay, Shape, Spread, Dry/Wet, Output | Pitch-modulation vibrato. |
 
-## Editor
+Manufacturer code: `PbTL`.
 
-On Windows, the release plug-ins use the shared native ImGui editor from `Common/PrimitiveFxImGuiEditor.*`. The editor keeps the compact one-row knob layout, shared A/B and preset controls, and embedded PNG header icons for Undo, Redo, and Bypass so every plug-in presents the same control language. The legacy `mock` folders remain in the repository as browser-openable visual references and embedded WebView assets for platforms that do not use the native ImGui editor path.
+## Editor (WebView UI)
 
-Editor features include:
+Every plug-in shares one HTML/CSS/JS editor rendered in a platform WebView (WebView2 / WKWebView). The visual language matches the original ImGui design and is reproduced pixel-faithfully — the knob is a 1:1 port of the ImGui procedural knob shader, drawn to an HTML canvas.
 
-- fixed-size GUI tailored to each plug-in parameter count;
-- horizontal knob layout with consistent `Dry/Wet` and `Output` placement and automatically distributed spacing to avoid unused side gaps;
-- drag, fine-drag, wheel, and double-click reset interaction;
-- A/B slot buttons and preset selector UI;
-- Save and Help controls;
-- shared PNG Undo, Redo, and Bypass header icons across all 17 plug-ins;
-- centralized help dialog showing `pbTechLab`, the library version, and a clickable `https://pbtechlab.com/` link;
-- input and output meter display;
-- host-facing parameter updates through JUCE APVTS.
+- **Procedural LED knobs** (`knob-render.js`): cyan LED ring (270°), dark cap, white pointer + blue tip, bipolar ring for ±parameters, and an animated LFO ring.
+- **LFO chip** popup on tempo/rate parameters (Type / Rate / Depth + waveform icon).
+- **Tempo sync** (`S`) with note↔Hz conversion, driven by host BPM.
+- **A/B** slots, **Undo/Redo** (64-deep), **10 factory presets**, **Bypass**, **Help**.
+- Knob interaction: drag, fine-drag (Shift), wheel, double-click reset, direct numeric entry.
+- One UI asset set drives both the iPlug2 build and the legacy JUCE WebView build via a host-abstraction bridge in `script.js`.
 
-## DSP And State
+## DSP
 
-The shared processor in `Common/PrimitiveFxProcessor.*` handles APVTS parameter creation, state serialization, metering, channel layout support, and effect dispatch. Each plug-in selects its DSP behavior through compile-time definitions supplied by its own `CMakeLists.txt`.
+Each plug-in re-implements its signal processing with self-contained, permissively-licensed algorithms (no JUCE, no proprietary DSP libraries): RBJ biquads (EQ), a Freeverb-style network (Reverb), a feed-forward compressor, an all-pass cascade (Phaser), and linear-interpolated fractional delay lines (Flanger / Chorus / Delay / Vibrato). The signal flow is faithful to the original: per-sample processing → `dry·(1−wet) + processed·wet` → output gain → bypass passthrough, plus input/output peak metering.
 
-Dry/Wet is implemented as a true mix between the unprocessed buffer and the processed buffer:
+## Build From Source (iPlug2)
 
-```text
-output = dry * (1 - wet) + processed * wet
-```
+Requirements: CMake 3.14+, a C++17 compiler, an [iPlug2](https://github.com/iPlug2/iPlug2) checkout, Visual Studio 2022 (Windows) or Xcode (macOS), the Avid AAX SDK (for AAX), and the WebView2 SDK (Windows, fetched by iPlug2).
 
-At 100% Wet, the explicit dry buffer is not mixed in. Some processors, such as EQ, dynamics, stereo tools, panning, and tremolo, naturally produce a processed signal that still contains recognizable source material.
-
-## Build From Source
-
-Requirements:
-
-- CMake 3.22 or newer
-- C++17 compiler
-- JUCE 8 compatible build environment
-- Visual Studio 2022 for Windows
-- Xcode for macOS
-- AAX SDK only when building AAX
-- PACE signing tools only for distributable AAX builds
-
-Basic Windows VST3/Standalone development build:
+Each plug-in is its own project under `iplug2/<plugin>/`. Windows example:
 
 ```powershell
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+cd iplug2/pbPFL_Flanger
+cmake -B build -G "Visual Studio 17 2022" -A x64 -DIPLUG2_DIR="path/to/iPlug2"
+cmake --build build --config Release --target pbPFL_Flanger-vst3   # VST3
+cmake --build build --config Release --target pbPFL_Flanger-aax    # AAX (needs AAX SDK)
+```
+
+macOS example (universal):
+
+```bash
+cd iplug2/pbPFL_Flanger
+cmake -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DIPLUG2_DIR="$HOME/iPlug2"
 cmake --build build --config Release
 ```
 
-Release-format VST3/AAX build example:
+Override the AAX SDK with `-DAAX_SDK_DIR=...`. The VST3 is deployed to the system VST3 folder and the AAX to the Avid Plug-Ins folder automatically.
 
-```powershell
-cmake -S . -B build-release -G "Visual Studio 17 2022" -A x64 `
-  -DPB_ENABLE_AAX=ON `
-  -DPB_BUILD_STANDALONE=OFF `
-  -DPB_AAX_SDK_PATH="path/to/aax-sdk"
-
-cmake --build build-release --config Release
-```
-
-To use a local JUCE checkout, pass:
-
-```powershell
--DPB_JUCE_LOCAL="path/to/JUCE"
-```
-
-If no local JUCE path is provided, CMake fetches JUCE 8.0.0.
+The original JUCE 8 implementation (shared `Common/` core + per-plug-in `mock/` UIs) remains in the repository for reference.
 
 ## Repository Privacy
 
-This repository intentionally excludes local build logs, installer artifacts, server-specific scripts, API credentials, signing credentials, private keys, machine names, and local handover files. Installer binaries are distributed only through GitHub Releases.
+This repository intentionally excludes build trees, installer artifacts, signing/PACE credentials, private keys, machine names, server scripts, API tokens, and local handover/log files. Release binaries are distributed only through GitHub Releases.

@@ -20,6 +20,9 @@ dist/
 !Common/assets/
 !Common/assets/header_icons/
 !Common/assets/header_icons/*.png
+# WebView UI logo is a build-time asset; keep it despite the generic *.png rule
+!pbtechlab-logoicon.png
+!iplug2/**/resources/web/*.png
 HANDOVER.md
 HANDOVER.md.bak
 HANDOVER.md.pbterm-prev.bak
@@ -31,3 +34,9 @@ tools/
 # pbCodexHooksHandover
 .pbcodex-handover/
 .codex/hooks.json
+# pbhandover
+/HANDOVER.md
+.pbhandover/
+.claude/settings.local.json
+.playwright-mcp/
+# iPlug2 migration: vendored WebView2 SDK + build trees live under build/ (already ignored)

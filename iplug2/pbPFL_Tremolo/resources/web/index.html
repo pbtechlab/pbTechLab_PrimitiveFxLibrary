@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=700, initial-scale=1.0">
+  <title>pbPFL Tremolo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="plugin-container">
+    <header class="header">
+      <div class="brand">
+        <img class="brand-logo" src="pbtechlab-logoicon.png" alt="pbTechLab" aria-hidden="true">
+        <div class="brand-text"><div class="product-name">pbPFL Tremolo</div><div class="maker-name">pbTechLab PrimitiveFxLibrary</div></div>
+      </div>
+      <div class="header-center">
+        <button class="icon-btn" id="undoBtn" type="button" title="Undo">&#8630;</button>
+        <button class="icon-btn" id="redoBtn" type="button" title="Redo">&#8631;</button>
+        <div class="ab-container"><button class="ab-btn active" type="button" data-slot="A">A</button><button class="ab-btn" type="button" data-slot="B">B</button></div>
+        <button class="nav-arrow" id="prevPreset" type="button" title="Previous preset">&#8249;</button>
+        <select class="preset-select" aria-label="Preset">
+          <option>Tremolo Init</option><option>Gentle Sway</option><option>Vintage Amp</option><option>Deep Pulse</option><option>Hard Chop</option><option>Stereo Throb</option><option>Slow Swell</option><option>Fast Flutter</option><option>Square Stutter</option><option>Wide Shimmer</option>
+        </select>
+        <button class="nav-arrow" id="nextPreset" type="button" title="Next preset">&#8250;</button>
+        <button class="icon-btn icon-only" id="savePresetBtn" type="button" title="Save Preset" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg></button>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn icon-only" id="helpBtn" type="button" title="Help" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.8 1c-.6 1.2-1.9 1.7-2.5 2.7"/><path d="M12 17h.01"/></svg></button>
+        <button class="icon-btn icon-only btn-bypass" type="button" title="Bypass" aria-label="Bypass"><svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></svg></button>
+      </div>
+    </header>
+    <main class="main"><section class="knob-row" aria-label="Parameters"></section></main>
+    <footer class="footer">
+      <div class="footer-right">
+        <span class="footer-item">v1.0.0</span>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // Canonical parameter table. Order MUST match the EParams enum in PbPFLTremolo.h
+    // (rate, depth, shape, stereo, smooth, dryWet, output, bypass). The host
+    // (JUCE or iPlug2) is authoritative for min/max/value at runtime; this table
+    // supplies id / unit / step / display order and acts as a standalone fallback.
+    const PLUGIN_PARAMS = [
+      {"id":"rate","name":"Rate","min":0.03,"max":120,"value":4,"defaultValue":4,"step":0.01,"unit":"Hz"},
+      {"id":"depth","name":"Depth","min":0,"max":100,"value":65,"defaultValue":65,"step":1,"unit":"%"},
+      {"id":"shape","name":"Shape","min":0,"max":100,"value":45,"defaultValue":45,"step":1,"unit":"%"},
+      {"id":"stereo","name":"Stereo","min":0,"max":180,"value":0,"defaultValue":0,"step":1,"unit":"deg"},
+      {"id":"smooth","name":"Smooth","min":0,"max":100,"value":20,"defaultValue":20,"step":1,"unit":"%"},
+      {"id":"dryWet","name":"Dry/Wet","min":0,"max":100,"value":100,"defaultValue":100,"step":1,"unit":"%"},
+      {"id":"output","name":"Output","min":-24,"max":12,"value":0,"defaultValue":0,"step":0.1,"unit":"dB"}
+    ];
+    // Bypass is param index 7 in the host but is not rendered as a knob.
+    const BYPASS_PARAM_INDEX = 7;
+  </script>
+  <script src="knob-render.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=988, initial-scale=1.0">
+  <title>pbPFL 3BandEQ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="plugin-container">
+    <header class="header">
+      <div class="brand">
+        <img class="brand-logo" src="pbtechlab-logoicon.png" alt="pbTechLab" aria-hidden="true">
+        <div class="brand-text"><div class="product-name">pbPFL 3BandEQ</div><div class="maker-name">pbTechLab PrimitiveFxLibrary</div></div>
+      </div>
+      <div class="header-center">
+        <button class="icon-btn" id="undoBtn" type="button" title="Undo">&#8630;</button>
+        <button class="icon-btn" id="redoBtn" type="button" title="Redo">&#8631;</button>
+        <div class="ab-container"><button class="ab-btn active" type="button" data-slot="A">A</button><button class="ab-btn" type="button" data-slot="B">B</button></div>
+        <button class="nav-arrow" id="prevPreset" type="button" title="Previous preset">&#8249;</button>
+        <select class="preset-select" aria-label="Preset">
+          <option>EQ Init</option><option>Warm Low</option><option>Bright Air</option><option>Vocal Lift</option><option>Smile Curve</option><option>Flat Trim</option><option>Mud Cut</option><option>Presence Boost</option><option>Bass Tighten</option><option>Master Polish</option>
+        </select>
+        <button class="nav-arrow" id="nextPreset" type="button" title="Next preset">&#8250;</button>
+        <button class="icon-btn icon-only" id="savePresetBtn" type="button" title="Save Preset" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg></button>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn icon-only" id="helpBtn" type="button" title="Help" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.8 1c-.6 1.2-1.9 1.7-2.5 2.7"/><path d="M12 17h.01"/></svg></button>
+        <button class="icon-btn icon-only btn-bypass" type="button" title="Bypass" aria-label="Bypass"><svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></svg></button>
+      </div>
+    </header>
+    <main class="main"><section class="knob-row" aria-label="Parameters"></section></main>
+    <footer class="footer">
+      <div class="footer-right">
+        <span class="footer-item">v1.0.0</span>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // Canonical parameter table. Order MUST match the EParams enum in PbPFL3BandEQ.h
+    // (lowGain, lowFreq, lowQ, midGain, midFreq, midQ, highGain, highQ, dryWet,
+    // output, bypass). The host (JUCE or iPlug2) is authoritative for min/max/value
+    // at runtime; this table supplies id / unit / step / display order and acts as a
+    // standalone fallback.
+    const PLUGIN_PARAMS = [
+      {"id":"lowGain","name":"Low","min":-18,"max":18,"value":0,"defaultValue":0,"step":0.1,"unit":"dB"},
+      {"id":"lowFreq","name":"Low Freq","min":40,"max":400,"value":120,"defaultValue":120,"step":1,"unit":"Hz"},
+      {"id":"lowQ","name":"Low Q","min":0.2,"max":8,"value":0.7,"defaultValue":0.7,"step":0.01,"unit":"Q"},
+      {"id":"midGain","name":"Mid","min":-18,"max":18,"value":0,"defaultValue":0,"step":0.1,"unit":"dB"},
+      {"id":"midFreq","name":"Mid Freq","min":200,"max":5000,"value":1200,"defaultValue":1200,"step":1,"unit":"Hz"},
+      {"id":"midQ","name":"Mid Q","min":0.2,"max":8,"value":1.1,"defaultValue":1.1,"step":0.01,"unit":"Q"},
+      {"id":"highGain","name":"High","min":-18,"max":18,"value":0,"defaultValue":0,"step":0.1,"unit":"dB"},
+      {"id":"highQ","name":"High Q","min":0.2,"max":8,"value":0.7,"defaultValue":0.7,"step":0.01,"unit":"Q"},
+      {"id":"dryWet","name":"Dry/Wet","min":0,"max":100,"value":100,"defaultValue":100,"step":1,"unit":"%"},
+      {"id":"output","name":"Output","min":-24,"max":12,"value":0,"defaultValue":0,"step":0.1,"unit":"dB"}
+    ];
+    // Bypass is param index 10 in the host but is not rendered as a knob.
+    const BYPASS_PARAM_INDEX = 10;
+  </script>
+  <script src="knob-render.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
