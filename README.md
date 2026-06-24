@@ -8,6 +8,19 @@ pbTechLab Primitive Fx Library is a collection of 17 lightweight audio effect pl
 
 The plug-ins were migrated from the original JUCE 8 implementation to **[iPlug2](https://github.com/iPlug2/iPlug2)** with a **WebView UI** (WebView2 on Windows, WKWebView on macOS). The migrated, build-ready projects live under [`iplug2/`](iplug2). Each plug-in is an independent iPlug2 project with its own product name, 4-character plug-in code, parameter set, DSP, and embedded HTML/CSS/JavaScript editor.
 
+## Download
+
+**Latest release: [v2.0.0](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest)** — the complete migration to iPlug2 + WebView, with AAX (Pro Tools) added alongside VST3.
+
+| Platform | Installer | Installs |
+|---|---|---|
+| Windows (x64) | [`pbTechLab_PrimitiveFxLibrary_..._Windows_Setup.exe`](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest) | VST3 + AAX to the common plug-in folders |
+| macOS (universal — Apple Silicon + Intel) | [`pbTechLab_PrimitiveFxLibrary-...-macOS.pkg`](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest) | VST3 + AAX, signed & notarized |
+
+The macOS installer is code-signed (Developer ID), notarized, and stapled; AAX is PACE-signed for Pro Tools on both platforms. Installers ship **only** through [GitHub Releases](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases) — they are never committed to the repository.
+
+> The plug-in/installer internal version string remains `1.0.0`; the `v2.0.0` tag denotes the iPlug2 + WebView rebuild and the AAX addition.
+
 ## Formats & Platforms
 
 | Format | Windows | macOS | Notes |

@@ -8,6 +8,19 @@ pbTechLab Primitive Fx Library は、Windows / macOS 向けの軽量オーディ
 
 本ライブラリは当初の JUCE 8 実装から **[iPlug2](https://github.com/iPlug2/iPlug2) ＋ WebView UI**（Windows: WebView2 / macOS: WKWebView）へ移行しました。移行済みのビルド可能プロジェクトは [`iplug2/`](iplug2) 配下にあります。各プラグインは独立した iPlug2 プロジェクトで、製品名・4文字プラグインコード・パラメータ・DSP・埋め込み HTML/CSS/JS エディタを個別に持ちます。
 
+## ダウンロード
+
+**最新リリース: [v2.0.0](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest)** — iPlug2 ＋ WebView への完全移行版。VST3 に加え AAX（Pro Tools）を追加。
+
+| プラットフォーム | インストーラ | インストール先 |
+|---|---|---|
+| Windows (x64) | [`pbTechLab_PrimitiveFxLibrary_..._Windows_Setup.exe`](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest) | 共通プラグインフォルダへ VST3 + AAX |
+| macOS（universal — Apple Silicon + Intel） | [`pbTechLab_PrimitiveFxLibrary-...-macOS.pkg`](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases/latest) | 署名・公証済みの VST3 + AAX |
+
+macOS インストーラは codesign（Developer ID）・公証・staple 済み、AAX は両 OS で Pro Tools 向けに PACE 署名済みです。インストーラは [GitHub Releases](https://github.com/pbtechlab/pbTechLab_PrimitiveFxLibrary/releases) でのみ配布し、リポジトリにはコミットしません。
+
+> プラグイン／インストーラ内部のバージョン文字列は `1.0.0` のままで、`v2.0.0` タグは iPlug2 ＋ WebView 再構築および AAX 追加を示します。
+
 ## 対応フォーマット / プラットフォーム
 
 | フォーマット | Windows | macOS | 備考 |
